@@ -68,5 +68,10 @@ session_regenerate_id(true);
 $_SESSION["email"] = $user["email"];
 $_SESSION["role"]  = $user["role"];
 
-header("Location: dashboard.php");
+if ($user["role"] === "admin") {
+    header("Location: admin.php");
+} else {
+    header("Location: dashboard.php");
+}
 exit;
+
