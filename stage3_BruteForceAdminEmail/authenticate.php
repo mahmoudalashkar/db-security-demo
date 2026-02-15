@@ -11,9 +11,6 @@ if ($email === "" || $pass === "") {
   exit;
 }
 
-// --- Rate limit config ---
-$MAX_FAILS = 5;
-$LOCK_MIN  = 2; // lock duration (minutes)
 
 // 1) Check lock status
 $check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
@@ -48,13 +45,6 @@ if (!$ok) {
   $check->execute([$email, $ip]);
   $row = $check->fetch();
 
-  if ($row && (int)$row["fails"] >= $MAX_FAILS) {
-    $pdo->prepare("
-      UPDATE login_attempts
-      SET locked_until = DATE_ADD(NOW(), INTERVAL ? MINUTE)
-      WHERE email=? AND ip=?
-    ")->execute([$LOCK_MIN, $email, $ip]);
-  }
 
   header("Location: login.php?err=1");
   exit;
