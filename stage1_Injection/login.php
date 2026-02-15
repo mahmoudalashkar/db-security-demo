@@ -15,6 +15,8 @@ $err = isset($_GET["err"]);
     <button type="submit">Login</button>
   </form>
 
-  <p>Test: admin@corp.local / Admin123!</p>
+  <p style="color: gray;">Test: test@demo.com / 123456</p>
+  <p style="color: gray; font-size: 0.8em;">Note: DB uses Plaintext storage.</p>
+  
 </body>
 </html>

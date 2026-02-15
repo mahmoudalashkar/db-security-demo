@@ -1,6 +1,6 @@
 <?php
 $host = "localhost"; // FIX: Forces the direct internal socket connection
-$db   = "dbsec_demo";
+$db   = "db_stage3";
 $user = "root";
 $pass = ""; // blank
 

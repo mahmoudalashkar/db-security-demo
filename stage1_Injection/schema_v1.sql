@@ -1,11 +1,12 @@
-CREATE DATABASE dbsec_demo;
-USE dbsec_demo;
+CREATE DATABASE IF NOT EXISTS db_stage1;
+USE db_stage1;
 
 CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(120) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
-  role VARCHAR(20) NOT NULL DEFAULT 'user'
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255), -- VULNERABLE: Plaintext
+    role VARCHAR(20)
 );
 
 CREATE TABLE login_attempts (
@@ -17,3 +18,6 @@ CREATE TABLE login_attempts (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY uniq_email_ip (email, ip)
 );
+
+INSERT INTO users (name, email, password, role) 
+VALUES ('Test User', 'test@demo.com', '123456', 'user');
