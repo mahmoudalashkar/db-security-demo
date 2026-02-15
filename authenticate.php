@@ -13,7 +13,7 @@ if ($email === "" || $pass === "") {
 
 // --- Rate limit config ---
 $MAX_FAILS = 5;
-$LOCK_MIN  = 2; // lock duration (minutes)
+$LOCK_MIN  = 1; // lock duration (minutes)
 
 // 1) Check lock status
 $check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
@@ -68,5 +68,10 @@ session_regenerate_id(true);
 $_SESSION["email"] = $user["email"];
 $_SESSION["role"]  = $user["role"];
 
-header("Location: dashboard.php");
+if ($user["role"] === "admin") {
+    header("Location: admin.php");
+} else {
+    header("Location: dashboard.php");
+}
 exit;
+
