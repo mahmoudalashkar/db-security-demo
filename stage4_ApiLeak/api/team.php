@@ -1,12 +1,20 @@
 <?php
-include('../db.php'); 
-
-// SPEAKER 4 VULNERABILITY: 
-// The SELECT * pulls everything, including the secret email and password hash
-$sql = "SELECT * FROM users WHERE role = 'admin' LIMIT 1";
-$stmt = $pdo->query($sql);
-$data = $stmt->fetch();
-
+// stage4_ApiLeak/api/team.php
 header('Content-Type: application/json');
-echo json_encode($data);
+
+// Include your PDO database connection
+require_once('../db.php'); 
+
+try {
+    // Fetch all users using PDO
+    $stmt = $pdo->query("SELECT id, email, password_hash, role FROM users");
+    $users = $stmt->fetchAll();
+    
+    // Output the data as clean JSON for MATLAB
+    echo json_encode($users);
+
+} catch (PDOException $e) {
+    // If the database fails, send a JSON error so MATLAB doesn't crash
+    echo json_encode([["error" => "Database connection failed", "details" => $e->getMessage()]]);
+}
 ?>
