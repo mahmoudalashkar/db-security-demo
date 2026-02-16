@@ -9,16 +9,6 @@ CREATE TABLE users (
     role VARCHAR(20)
 );
 
-CREATE TABLE login_attempts (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(120) NOT NULL,
-  ip VARCHAR(45) NOT NULL,
-  fails INT NOT NULL DEFAULT 0,
-  locked_until DATETIME NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY uniq_email_ip (email, ip)
-);
-
 
 -- Password is 'password'
 INSERT INTO users (name, email, password_hash, role) 
