@@ -20,5 +20,7 @@ CREATE TABLE login_attempts (
 );
 
 -- MD5 of '123456' is e10adc3949ba59abbe56e057f20f883e
+UPDATE users SET password = MD5(password);
+
 INSERT INTO users (name, email, password, role) 
 VALUES ('Test User', 'test@demo.com', 'e10adc3949ba59abbe56e057f20f883e', 'user');
