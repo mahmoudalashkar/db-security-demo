@@ -20,6 +20,15 @@ $ok = ($user && md5($pass) === $user['password']);
 
 
 if (!$ok) {
+   $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+
+  $stmt = $pdo->prepare("
+INSERT INTO login_attempts (email, ip, fails)
+VALUES (?, ?, 1)
+ON DUPLICATE KEY UPDATE fails = fails + 1
+");
+$stmt->execute([$email, $ip]);  
+  
   header("Location: login.php?err=1");
   exit;
 }
