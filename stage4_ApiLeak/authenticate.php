@@ -13,7 +13,7 @@ if ($email === "" || $pass === "") {
 
 // --- Rate limit config ---
 $MAX_FAILS = 5;
-$LOCK_MIN  = 2; // lock duration (minutes)
+$LOCK_MIN  = 1; // lock duration (minutes)
 
 // 1) Check lock status
 $check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
@@ -48,12 +48,12 @@ if (!$ok) {
   $check->execute([$email, $ip]);
   $row = $check->fetch();
 
-  if ($row && (int)$row["fails"] >= $MAX_FAILS) {
-    $pdo->prepare("
-      UPDATE login_attempts
-      SET locked_until = DATE_ADD(NOW(), INTERVAL ? MINUTE)
-      WHERE email=? AND ip=?
-    ")->execute([$LOCK_MIN, $email, $ip]);
+    if ($row && (int)$row["fails"] >= $MAX_FAILS) {
+     $pdo->prepare("
+       UPDATE login_attempts
+       SET locked_until = DATE_ADD(NOW(), INTERVAL ? MINUTE)
+       WHERE email=? AND ip=?
+     ")->execute([$LOCK_MIN, $email, $ip]);
   }
 
   header("Location: login.php?err=1");
@@ -63,16 +63,14 @@ if (!$ok) {
 // 3) Success: clear attempts
 $pdo->prepare("DELETE FROM login_attempts WHERE email=? AND ip=?")->execute([$email, $ip]);
 
-// 4) Login session
+// 4) MFA Intercept (This Replaces the Direct Login)
 session_regenerate_id(true);
-$_SESSION["email"] = $user["email"];
-$_SESSION["role"]  = $user["role"];
 
-if ($user["role"] === "admin") {
-    header("Location: admin.php");
-} else {
-    header("Location: dashboard.php");
-}
+// Put them in the waiting room
+$_SESSION['mfa_pending'] = true;
+$_SESSION['pending_email'] = $user["email"];
+$_SESSION['pending_role']  = $user["role"]; // Remember their role for later
+
+// Send to the second gate
+header("Location: mfa.php");
 exit;
-
-
