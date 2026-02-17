@@ -15,10 +15,10 @@ if ($email === "" || $pass === "") {
 // $MAX_FAILS = 5;
 // $LOCK_MIN  = 1; // lock duration (minutes)
 
-// // 1) Check lock status
-// $check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
-// $check->execute([$email, $ip]);
-// $row = $check->fetch();
+// 1) Check lock status
+$check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
+$check->execute([$email, $ip]);
+$row = $check->fetch();
 
 // if ($row && $row["locked_until"] !== null) {
 //   $lockedUntil = strtotime($row["locked_until"]);
