@@ -11,20 +11,23 @@ if ($email === "" || $pass === "") {
   exit;
 }
 
+// // --- Rate limit config ---
+// $MAX_FAILS = 5;
+// $LOCK_MIN  = 1; // lock duration (minutes)
 
 // 1) Check lock status
 $check = $pdo->prepare("SELECT fails, locked_until FROM login_attempts WHERE email=? AND ip=?");
 $check->execute([$email, $ip]);
 $row = $check->fetch();
 
-if ($row && $row["locked_until"] !== null) {
-  $lockedUntil = strtotime($row["locked_until"]);
-  if ($lockedUntil !== false && $lockedUntil > time()) {
-    http_response_code(429);
-    echo "Too many attempts. Try again later.";
-    exit;
-  }
-}
+// if ($row && $row["locked_until"] !== null) {
+//   $lockedUntil = strtotime($row["locked_until"]);
+//   if ($lockedUntil !== false && $lockedUntil > time()) {
+//     http_response_code(429);
+//     echo "Too many attempts. Try again later.";
+//     exit;
+//   }
+// }
 
 // 2) Fetch user securely (blocks SQL injection)
 $stmt = $pdo->prepare("SELECT id, email, password_hash, role FROM users WHERE email = ?");
@@ -45,6 +48,14 @@ if (!$ok) {
   $check->execute([$email, $ip]);
   $row = $check->fetch();
 
+
+  //  if ($row && (int)$row["fails"] >= $MAX_FAILS) {
+  //   $pdo->prepare("
+  //     UPDATE login_attempts
+  //     SET locked_until = DATE_ADD(NOW(), INTERVAL ? MINUTE)
+  //     WHERE email=? AND ip=?
+  //   ")->execute([$LOCK_MIN, $email, $ip]);
+  // }
 
   header("Location: login.php?err=1");
   exit;

@@ -16,7 +16,5 @@ $err = isset($_GET["err"]);
   </form>
 
   <p style="color: gray;">Test: test@demo.com / password</p>
-  <p style="color: gray;">Admin: darkknight_99@corp.local / password</p>
-  <p style="color: gray; font-size: 0.8em;">Note: DB uses Bcrypt hashing.</p>
-</body>
+ </body>
 </html>

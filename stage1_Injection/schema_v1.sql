@@ -21,3 +21,16 @@ CREATE TABLE login_attempts (
 
 INSERT INTO users (name, email, password, role) 
 VALUES ('Test User', 'test@demo.com', '123456', 'user');
+
+INSERT IGNORE INTO users (name, email, password, role)
+VALUES 
+('Tom Hanks', 'tom.hanks@demo.com', 'password1234', 'user'),
+('Emma Watson', 'emma.watson@demo.com', 'password5678', 'admin'),
+('Robert Downey', 'robert.downey@demo.com', 'password91011', 'user'),
+('Scarlett Johansson', 'scarlett.johansson@demo.com', 'password1213', 'user'),
+('Chris Hemsworth', 'chris.hemsworth@demo.com', 'password1415', 'admin'),
+('Natalie Portman', 'natalie.portman@demo.com', 'password1617', 'user'),
+('Morgan Freeman', 'morgan.freeman@demo.com', 'password1819', 'user'),
+('Sandra Bullock', 'sandra.bullock@demo.com', 'password2021', 'admin'),
+('Harrison Ford', 'harrison.ford@demo.com', 'password2223', 'user'),
+('Meryl Streep', 'meryl.streep@demo.com', 'password2425', 'user');
