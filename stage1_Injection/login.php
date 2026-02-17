@@ -9,11 +9,11 @@ $err = isset($_GET["err"]);
   <h2>Login</h2>
   <?php if ($err) echo "<p style='color:red'>Invalid email or password</p>"; ?>
 
-  <form method="post" action="authenticate.php">
-    <input type="email" name="email" placeholder="email" required><br><br>
-    <input type="password" name="password" placeholder="password" required><br><br>
+ <form method="post" action="authenticate.php">
+    Email: <input type="text" name="email"><br><br>
+    Password: <input type="text" name="password"><br><br>
     <button type="submit">Login</button>
-  </form>
+</form>
 
   <p style="color: gray;">Test: test@demo.com / 123456</p>
   <p style="color: gray; font-size: 0.8em;">Note: DB uses Plaintext storage.</p>
