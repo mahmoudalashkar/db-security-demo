@@ -63,14 +63,14 @@ if (!$ok) {
 // 3) Success: clear attempts
 $pdo->prepare("DELETE FROM login_attempts WHERE email=? AND ip=?")->execute([$email, $ip]);
 
-// 4) Login session
+// 4) MFA Intercept (This Replaces the Direct Login)
 session_regenerate_id(true);
-$_SESSION["email"] = $user["email"];
-$_SESSION["role"]  = $user["role"];
 
-if ($user["role"] === "admin") {
-    header("Location: admin.php");
-} else {
-    header("Location: dashboard.php");
-}
+// Put them in the waiting room
+$_SESSION['mfa_pending'] = true;
+$_SESSION['pending_email'] = $user["email"];
+$_SESSION['pending_role']  = $user["role"]; // Remember their role for later
+
+// Send to the second gate
+header("Location: mfa.php");
 exit;

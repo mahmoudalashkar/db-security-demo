@@ -1,7 +1,3 @@
-Here is a clean, professional README text you can copy and paste:
-
----
-
 # Database Security – Attack & Defense Demonstration
 
 This project demonstrates common database-related vulnerabilities in web applications and their corresponding security defenses. The goal is to illustrate how improper input handling, weak authentication mechanisms, and insecure data access can compromise a system, and how proper security practices effectively mitigate these risks.
