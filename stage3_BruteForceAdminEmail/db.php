@@ -2,7 +2,7 @@
 $host = "localhost"; // FIX: Forces the direct internal socket connection
 $db   = "u657373697_stage3";
 $user = "u657373697_mahmoud";
-$pass = "nD|xC5qO"; 
+$pass = "nD|xC5q0"; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
