@@ -16,7 +16,7 @@ if ($email === "" || $pass === "") {
 // making it vulnerable to ' OR '1'='1
 // ---------------------------------------------------------
 
-$sql = "SELECT * FROM users WHERE email = '$email' AND password = MD5('$pass')";
+$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$pass'";
 
 try {
     $stmt = $pdo->query($sql);

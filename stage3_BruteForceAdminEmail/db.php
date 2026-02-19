@@ -1,14 +1,13 @@
 <?php
-$host = "127.0.0.1";
-$port = 3307;
+$host = "localhost"; // FIX: Forces the direct internal socket connection
+$db   = "u657373697_stage3";
+$user = "u657373697_mahmoud";
+$pass = "nD|xC5qO"; 
 
-$db   = "db_stage3"; 
-$user = "root";
-$pass = "";
-
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
-$pdo = new PDO($dsn, $user, $pass, [
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database Connection Failed: " . $e->getMessage());
+}
 ?>

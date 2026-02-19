@@ -1,8 +1,8 @@
 <?php
 $host = "localhost"; // FIX: Forces the direct internal socket connection
-$db   = "db_stage4";
-$user = "root";
-$pass = ""; // blank
+$db   = "u657373697_stage4";
+$user = "u657373697_saf";
+$pass = "RyRxEu@:5>"; 
 
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 $pdo = new PDO($dsn, $user, $pass, [
